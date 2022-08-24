@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>junit5-maven-starter</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>15</maven.compiler.source>
+        <maven.compiler.target>15</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
+        </dependency>
+
+<!--        подключаем Junit4, т.к. еще одна библиотека для тестов, которую хотим использовать-->
+<!--        (Hamcrest) явл. транзитивной зависимостью для него-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.1</version>
+<!--            т.к. мы подключили hamcrest отдельно с помощью добавления зависимости ниже,-->
+<!--            то здесь исключим hamcrest из junit4 с помощью тега exclusions-->
+<!--            этот тег позволяет исключать транзитивные зависимости (hamcrest явл. -->
+<!--            транзитивной зависимостью для junit4)-->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hamcrest</groupId>
+                    <artifactId>hamcrest-core</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>test</scope>
+        </dependency>
+<!--        но в библиотеке Hamcrest, которую подключили благодаря добавлению зависимости выше, -->
+<!--        есть не все нужные нам зависимости, поэтому покдлючим Hamcrest еще и отдельно-->
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <version>1.3</version>
+            <scope>test</scope>
+        </dependency>
+
+<!--        подключение Junit5-->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.8.0-M1</version>
+            <scope>test</scope>
+        </dependency>
+
+<!--        добавили эту зависимость, чтобы иметь возможность самостоятельно конфигурировать -->
+<!--        запуск тестов, создавая для этого конфиг-класс TestLauncher-->
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>1.8.0-M1</version>
+            <scope>test</scope>
+        </dependency>
+
+<!--        scope означает область зависимости, исп. для ограничения транзитивности зависимости-->
+<!--        и для определения того, когда зависимость включается в путь к классам.-->
+<!--        test - Эта область указывает, что зависимость не требуется для норм. использования приложения-->
+<!--        и доступна только для этапов компиляции и выполнения теста. Эта область не явл. транзитивной.-->
+<!--        Обычно эта область исп. для тестовых библиотек, таких как JUnit и Mockito.-->
+<!--        Он также исп. для нетестовых библиотек, таких как Apache Commons IO, если эти библиотеки-->
+<!--        исп. в модульных тестах (src/test/java), но не в коде модели (src/main/java).-->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.19.0</version>
+            <scope>test</scope>
+        </dependency>
+
+<!--        зависимость, чтобы можно было проводить параметризованные тесты-->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>5.8.0-M1</version>
+            <scope>test</scope>
+        </dependency>
+
+<!--        библиотека Mockito-->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.9.0</version>
+            <scope>test</scope>
+        </dependency>
+
+<!--        для упрощения работы с моками, ее лаконичности и декларативного стиля-->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>3.9.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>15</source>
+                    <target>15</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
